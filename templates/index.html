@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{ title }}</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #cccccc;
+            --message-bg: #f9f9f9;
+            --timestamp-color: #666666;
+            --sidebar-width: 250px;
+            --sidebar-bg: #f5f5f5;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4a9eff;
+            --secondary-color: #77b7ff;
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --border-color: #444444;
+            --message-bg: #2d2d2d;
+            --timestamp-color: #999999;
+            --sidebar-bg: #242424;
+        }
+
+        [data-theme="forest"] {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --bg-color: #f0f7f0;
+            --text-color: #2c3e2c;
+            --border-color: #a5d6a7;
+            --message-bg: #e8f5e9;
+            --timestamp-color: #558b55;
+            --sidebar-bg: #e0ece0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #theme-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        #chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+        }
+
+        #messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: var(--message-bg);
+        }
+
+        .message {
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .message.new-message {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message .user {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .message .timestamp {
+            font-size: 0.8em;
+            color: var(--timestamp-color);
+            margin-left: 10px;
+        }
+
+        #message-form {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        #message-form input {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--message-bg);
+            color: var(--text-color);
+        }
+
+        #message-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        #username {
+            width: 150px;
+        }
+
+        #message {
+            flex: 1;
+        }
+
+        #message-form button {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        #message-form button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Scrollbar styling */
+        #messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #messages::-webkit-scrollbar-track {
+            background: var(--message-bg);
+        }
+
+        #messages::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        #messages::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            #message-form {
+                flex-direction: column;
+            }
+
+            #username {
+                width: 100%;
+            }
+        }
+
+        /* New styles for the sidebar */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .channels-sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .channel-search {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .channels-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .channel-item {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: var(--text-color);
+        }
+
+        .channel-item:hover {
+            background-color: var(--message-bg);
+        }
+
+        .channel-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #chat-container {
+            flex: 1;
+            margin: 0;
+        }
+
+        /* Responsive design update */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .channels-sidebar {
+                width: 100%;
+                max-height: 200px;
+            }
+
+            .channels-list {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+
+            .channel-item {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <select id="theme-selector" onchange="changeTheme(this.value)">
+        <option value="light">Light Theme</option>
+        <option value="dark">Dark Theme</option>
+        <option value="forest">Forest Theme</option>
+    </select>
+
+    <div class="app-container">
+        <div class="channels-sidebar">
+            <input type="text" class="channel-search" placeholder="Search channels..." id="channel-search">
+            <div class="channels-list" id="channels-list">
+                <!-- Channels will be populated here -->
+            </div>
+        </div>
+
+        <div id="chat-container">
+            <div id="messages"></div>
+            <form id="message-form">
+                <input type="text" id="username" placeholder="Your name" autocomplete="off" aria-autocomplete="off">
+                <input type="text" id="message" placeholder="Type a message" autocomplete="off" aria-autocomplete="off" required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('messages');
+        const messageForm = document.getElementById('message-form');
+        const usernameInput = document.getElementById('username');
+        const messageInput = document.getElementById('message');
+        const channelSearch = document.getElementById('channel-search');
+        const channelsList = document.getElementById('channels-list');
+
+        let currentChannel = "general";
+        let existingMessageIds = new Set();
+
+        // Fetch the list of channels and store it in a global variable
+        let channels = [];
+
+        fetch("/channels")
+            .then(response => response.json())
+            .then(data => {
+                channels = data; // Store the channel list
+                console.log("Channels available:", channels);
+            })
+            .catch(err => console.error("Error fetching channels:", err));
+
+        // Channel management
+        function renderChannels(searchTerm = '') {
+            const filteredChannels = channels.filter(channel => 
+                channel.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            channelsList.innerHTML = '';
+            filteredChannels.forEach(channel => {
+                const channelElement = document.createElement('div');
+                channelElement.classList.add('channel-item');
+                if (channel === currentChannel) {
+                    channelElement.classList.add('active');
+                }
+                channelElement.textContent = '#' + channel;
+                channelElement.onclick = () => switchChannel(channel);
+                channelsList.appendChild(channelElement);
+            });
+        }
+
+        function switchChannel(channel) {
+            currentChannel = channel;
+            existingMessageIds.clear();
+            renderChannels(channelSearch.value);
+            fetchMessages();
+        }
+
+        // Channel search
+        channelSearch.addEventListener('input', (e) => {
+            renderChannels(e.target.value);
+        });
+
+
+        // Theme management
+        function changeTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('preferred-theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-selector').value = savedTheme;
+        }
+
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        function createMessageElement(msg, isNew) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            if (isNew) {
+                messageElement.classList.add('new-message');
+            }
+            const timestamp = formatTimestamp(msg.timestamp || Date.now());
+            messageElement.innerHTML = `
+                <span class="user">${msg.user}</span>
+                <span class="message-content">${msg.message}</span>
+                <span class="timestamp">${timestamp}</span>
+            `;
+            return messageElement;
+        }
+
+        function fetchMessages() {
+            fetch(`/channels/${currentChannel}/messages`)
+                .then(response => response.json())
+                .then(messages => {
+                    const wasScrolledToBottom = messagesContainer.scrollHeight - messagesContainer.clientHeight <= messagesContainer.scrollTop + 1;
+                    
+                    const newMessageIds = new Set();
+                    
+                    messagesContainer.innerHTML = '';
+                    messages.forEach(msg => {
+                        const messageId = `${msg.timestamp}-${msg.user}-${msg.message}`;
+                        const isNew = !existingMessageIds.has(messageId);
+                        
+                        newMessageIds.add(messageId);
+                        
+                        const messageElement = createMessageElement(msg, isNew);
+                        messagesContainer.appendChild(messageElement);
+                    });
+                    
+                    existingMessageIds = newMessageIds;
+
+                    if (wasScrolledToBottom) {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                });
+        }
+
+        messageForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const username = usernameInput.value.trim().charAt(0).toUpperCase() + usernameInput.value.trim().slice(1);
+            const message = messageInput.value.trim();
+
+            if (!username || !message) return;
+
+            fetch(`/channels/${currentChannel}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user: username,
+                    message,
+                    timestamp: new Date().toISOString()
+                })
+            }).then(() => {
+                messageInput.value = '';
+                fetchMessages();
+            });
+        });
+
+        // Save username in localStorage
+        usernameInput.value = localStorage.getItem('username') || '';
+        usernameInput.addEventListener('change', () => {
+            localStorage.setItem('username', usernameInput.value);
+        });
+
+    
+
+       
+
+         // Initial setup
+        renderChannels();
+        setInterval(fetchMessages, 2000);
+        fetchMessages();
+    </script>
+</body>
+</html>
