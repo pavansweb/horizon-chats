@@ -15,6 +15,8 @@
             --timestamp-color: #666666;
             --sidebar-width: 250px;
             --sidebar-bg: #f5f5f5;
+            --self-message-bg: #d1e7ff;
+            --other-message-bg: #f0f0f0;
         }
 
         [data-theme="dark"] {
@@ -26,6 +28,8 @@
             --message-bg: #2d2d2d;
             --timestamp-color: #999999;
             --sidebar-bg: #242424;
+            --self-message-bg: #2d5d9e;
+            --other-message-bg: #383838;
         }
 
         [data-theme="forest"] {
@@ -37,6 +41,8 @@
             --message-bg: #e8f5e9;
             --timestamp-color: #558b55;
             --sidebar-bg: #e0ece0;
+            --self-message-bg: #c8e6c9;
+            --other-message-bg: #e8f5e9;
         }
 
         * {
@@ -90,8 +96,24 @@
             padding: 10px 15px;
             margin: 8px 0;
             border-radius: 10px;
-            background-color: var(--bg-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            max-width: 80%;
+            position: relative;
+            clear: both;
+        }
+
+        .message.self {
+            float: right;
+            background-color: var(--self-message-bg);
+            border-bottom-right-radius: 2px;
+            text-align: right;
+            margin-left: 20%;
+        }
+
+        .message.other {
+            float: left;
+            background-color: var(--other-message-bg);
+            border-bottom-left-radius: 2px;
+            margin-right: 20%;
         }
 
         .message.new-message {
@@ -188,84 +210,106 @@
             }
         }
 
-        /* New styles for the sidebar */
-        .app-container {
+        /* Channel prompt modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
             display: flex;
-            height: 100vh;
-            padding: 20px;
-            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
-        .channels-sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--sidebar-bg);
+        .modal-content {
+            background-color: var(--bg-color);
+            padding: 30px;
             border-radius: 15px;
-            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            border: 1px solid var(--border-color);
         }
 
-        .channel-search {
-            width: 100%;
-            padding: 10px;
+        .modal-input {
+            padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        .channels-list {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .channel-item {
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            color: var(--text-color);
-        }
-
-        .channel-item:hover {
+            font-size: 16px;
             background-color: var(--message-bg);
+            color: var(--text-color);
         }
 
-        .channel-item.active {
+        .modal-button {
+            padding: 12px;
             background-color: var(--primary-color);
             color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        #chat-container {
-            flex: 1;
-            margin: 0;
+        .modal-button:hover {
+            background-color: var(--secondary-color);
         }
 
-        /* Responsive design update */
-        @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 14px;
+        }
 
-            .channels-sidebar {
-                width: 100%;
-                max-height: 200px;
-            }
+        .channel-display {
+            padding: 15px;
+            background-color: var(--sidebar-bg);
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-            .channels-list {
-                flex-direction: row;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
+        .channel-name {
+            font-size: 18px;
+            color: var(--primary-color);
+        }
 
-            .channel-item {
-                white-space: nowrap;
-            }
+        .change-channel {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .change-channel:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
     </style>
 </head>
@@ -276,20 +320,27 @@
         <option value="forest">Forest Theme</option>
     </select>
 
-    <div class="app-container">
-        <div class="channels-sidebar">
-            <input type="text" class="channel-search" placeholder="Search channels..." id="channel-search">
-            <div class="channels-list" id="channels-list">
-                <!-- Channels will be populated here -->
-            </div>
+    <div id="chat-container">
+        <div class="channel-display">
+            <span class="channel-name"># <span id="current-channel-name">loading...</span></span>
+            <button class="change-channel" id="change-channel-btn">Change Channel</button>
         </div>
+        <div id="messages"></div>
+        <form id="message-form">
+            <input type="text" id="username" placeholder="Your name" autocomplete="off" aria-autocomplete="off">
+            <input type="text" id="message" placeholder="Type a message" autocomplete="off" aria-autocomplete="off" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
 
-        <div id="chat-container">
-            <div id="messages"></div>
-            <form id="message-form">
-                <input type="text" id="username" placeholder="Your name" autocomplete="off" aria-autocomplete="off">
-                <input type="text" id="message" placeholder="Type a message" autocomplete="off" aria-autocomplete="off" required>
-                <button type="submit">Send</button>
+    <!-- Channel prompt modal -->
+    <div class="modal-overlay" id="channel-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Enter Channel Name</h2>
+            <form class="modal-form" id="channel-form">
+                <input type="text" class="modal-input" id="channel-input" placeholder="e.g., general or your name" required>
+                <button type="submit" class="modal-button">Join Channel</button>
+                <div id="channel-error" class="error-message"></div>
             </form>
         </div>
     </div>
@@ -299,54 +350,17 @@
         const messageForm = document.getElementById('message-form');
         const usernameInput = document.getElementById('username');
         const messageInput = document.getElementById('message');
-        const channelSearch = document.getElementById('channel-search');
-        const channelsList = document.getElementById('channels-list');
+        const channelModal = document.getElementById('channel-modal');
+        const channelForm = document.getElementById('channel-form');
+        const channelInput = document.getElementById('channel-input');
+        const channelError = document.getElementById('channel-error');
+        const currentChannelName = document.getElementById('current-channel-name');
+        const changeChannelBtn = document.getElementById('change-channel-btn');
 
-        let currentChannel = "general";
+        let currentChannel = null;
         let existingMessageIds = new Set();
-
-        // Fetch the list of channels and store it in a global variable
         let channels = [];
-
-        fetch("/channels")
-            .then(response => response.json())
-            .then(data => {
-                channels = data; // Store the channel list
-                console.log("Channels available:", channels);
-            })
-            .catch(err => console.error("Error fetching channels:", err));
-
-        // Channel management
-        function renderChannels(searchTerm = '') {
-            const filteredChannels = channels.filter(channel => 
-                channel.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-
-            channelsList.innerHTML = '';
-            filteredChannels.forEach(channel => {
-                const channelElement = document.createElement('div');
-                channelElement.classList.add('channel-item');
-                if (channel === currentChannel) {
-                    channelElement.classList.add('active');
-                }
-                channelElement.textContent = '#' + channel;
-                channelElement.onclick = () => switchChannel(channel);
-                channelsList.appendChild(channelElement);
-            });
-        }
-
-        function switchChannel(channel) {
-            currentChannel = channel;
-            existingMessageIds.clear();
-            renderChannels(channelSearch.value);
-            fetchMessages();
-        }
-
-        // Channel search
-        channelSearch.addEventListener('input', (e) => {
-            renderChannels(e.target.value);
-        });
-
+        let messageInterval;
 
         // Theme management
         function changeTheme(theme) {
@@ -369,21 +383,30 @@
         }
 
         function createMessageElement(msg, isNew) {
+            const currentUsername = usernameInput.value.trim();
+            const isSelf = msg.user === currentUsername;
+            
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
+            messageElement.classList.add(isSelf ? 'self' : 'other');
+            
             if (isNew) {
                 messageElement.classList.add('new-message');
             }
+            
             const timestamp = formatTimestamp(msg.timestamp || Date.now());
             messageElement.innerHTML = `
                 <span class="user">${msg.user}</span>
                 <span class="message-content">${msg.message}</span>
                 <span class="timestamp">${timestamp}</span>
             `;
+            
             return messageElement;
         }
 
         function fetchMessages() {
+            if (!currentChannel) return;
+            
             fetch(`/channels/${currentChannel}/messages`)
                 .then(response => response.json())
                 .then(messages => {
@@ -402,6 +425,11 @@
                         messagesContainer.appendChild(messageElement);
                     });
                     
+                    // Add clearfix
+                    const clearfix = document.createElement('div');
+                    clearfix.classList.add('clearfix');
+                    messagesContainer.appendChild(clearfix);
+                    
                     existingMessageIds = newMessageIds;
 
                     if (wasScrolledToBottom) {
@@ -410,8 +438,67 @@
                 });
         }
 
+        // Initial fetch of available channels
+        fetch("/channels")
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    channels = data;
+                }
+                console.log("Available channels:", channels);
+            })
+            .catch(err => {
+                console.error("Error fetching channels:", err);
+            });
+
+        // Join channel function
+        function joinChannel(channelName) {
+            channelName = channelName.trim().toLowerCase();
+            
+            if (channels.includes(channelName)) {
+                currentChannel = channelName;
+                currentChannelName.textContent = channelName;
+                channelModal.style.display = 'none';
+                existingMessageIds.clear();
+                fetchMessages();
+                
+                // Save to localStorage
+                localStorage.setItem('preferred-channel', channelName);
+                
+                // Start polling for messages
+                if (messageInterval) {
+                    clearInterval(messageInterval);
+                }
+                messageInterval = setInterval(fetchMessages, 2000);
+                
+                return true;
+            } else {
+                channelError.textContent = `Channel "${channelName}" doesn't exist. Try one of: ${channels.join(', ')}`;
+                return false;
+            }
+        }
+
+        // Channel form submission
+        channelForm.addEventListener('submit', event => {
+            event.preventDefault();
+            joinChannel(channelInput.value);
+        });
+
+        // Change channel button
+        changeChannelBtn.addEventListener('click', () => {
+            channelModal.style.display = 'flex';
+            channelInput.focus();
+        });
+
+        // Message form submission
         messageForm.addEventListener('submit', event => {
             event.preventDefault();
+            
+            if (!currentChannel) {
+                alert("Please join a channel first!");
+                return;
+            }
+            
             const username = usernameInput.value.trim().charAt(0).toUpperCase() + usernameInput.value.trim().slice(1);
             const message = messageInput.value.trim();
 
@@ -439,14 +526,14 @@
             localStorage.setItem('username', usernameInput.value);
         });
 
-    
-
-       
-
-         // Initial setup
-        renderChannels();
-        setInterval(fetchMessages, 2000);
-        fetchMessages();
+        // Check if there's a saved channel preference
+        const savedChannel = localStorage.getItem('preferred-channel');
+        if (savedChannel && channels.includes(savedChannel)) {
+            joinChannel(savedChannel);
+        } else {
+            // Show the channel modal
+            channelModal.style.display = 'flex';
+        }
     </script>
 </body>
 </html>
