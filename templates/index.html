@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {{ title }}</title>
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #0056b3;
+            --primary-color: #0d6efd;
+            --secondary-color: #0a58ca;
             --bg-color: #ffffff;
-            --text-color: #333333;
-            --border-color: #cccccc;
-            --message-bg: #f9f9f9;
-            --timestamp-color: #666666;
-            --sidebar-width: 250px;
-            --sidebar-bg: #f5f5f5;
-            --self-message-bg: #d1e7ff;
-            --other-message-bg: #f0f0f0;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --message-bg: #f8f9fa;
+            --timestamp-color: #6c757d;
+            --sidebar-bg: #f8f9fa;
+            --self-message-bg: #cfe2ff;
+            --other-message-bg: #f8f9fa;
         }
 
         [data-theme="dark"] {
-            --primary-color: #4a9eff;
-            --secondary-color: #77b7ff;
-            --bg-color: #1a1a1a;
-            --text-color: #ffffff;
-            --border-color: #444444;
-            --message-bg: #2d2d2d;
-            --timestamp-color: #999999;
-            --sidebar-bg: #242424;
-            --self-message-bg: #2d5d9e;
-            --other-message-bg: #383838;
+            --primary-color: #0d6efd;
+            --secondary-color: #0a58ca;
+            --bg-color: #212529;
+            --text-color: #f8f9fa;
+            --border-color: #495057;
+            --message-bg: #343a40;
+            --timestamp-color: #adb5bd;
+            --sidebar-bg: #343a40;
+            --self-message-bg: #0d47a1;
+            --other-message-bg: #424242;
         }
 
         [data-theme="forest"] {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
+            --primary-color: #198754;
+            --secondary-color: #157347;
             --bg-color: #f0f7f0;
             --text-color: #2c3e2c;
             --border-color: #a5d6a7;
@@ -44,46 +44,34 @@
             --self-message-bg: #c8e6c9;
             --other-message-bg: #e8f5e9;
         }
+
         [data-theme="pink"] {
-        --primary-color: #ff69b4;              /* Hot Pink */
-        --secondary-color: #ffa6c9;            /* Soft Pink */
-        --bg-color: #fff0f5;                   /* Lavender Blush */
-        --text-color: #4a0033;                 /* Deep Plum */
-        --border-color: #ffb6c1;               /* Light Pink */
-        --message-bg: #ffe4ec;                 /* Very Light Pink */
-        --timestamp-color: #c71585;            /* Medium Violet Red */
-        --sidebar-bg: #ffeef5;                 /* Faint Pink */
-        --self-message-bg: #ffc0cb;            /* Pink */
-        --other-message-bg: #fddde6;           /* Rosy pink */
-    }
-
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
+            --primary-color: #ff69b4;
+            --secondary-color: #ffa6c9;
+            --bg-color: #fff0f5;
+            --text-color: #4a0033;
+            --border-color: #ffb6c1;
+            --message-bg: #ffe4ec;
+            --timestamp-color: #c71585;
+            --sidebar-bg: #ffeef5;
+            --self-message-bg: #ffc0cb;
+            --other-message-bg: #fddde6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
             background-color: var(--bg-color);
             color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        #theme-selector {
+        .theme-selector-container {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 8px;
-            border-radius: 5px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
+            z-index: 1000;
+            width: 150px;
         }
 
         #chat-container {
@@ -92,10 +80,26 @@
             height: 80vh;
             display: flex;
             flex-direction: column;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .channel-display {
+            padding: 15px;
+            background-color: var(--sidebar-bg);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .channel-name {
+            font-size: 18px;
+            color: var(--primary-color);
         }
 
         #messages {
@@ -107,26 +111,24 @@
 
         .message {
             padding: 10px 15px;
-            margin: 8px 0;
-            border-radius: 10px;
+            margin-bottom: 12px;
+            border-radius: 0.5rem;
             max-width: 80%;
             position: relative;
-            clear: both;
+            word-wrap: break-word;
         }
 
         .message.self {
-            float: right;
+            margin-left: auto;
             background-color: var(--self-message-bg);
-            border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 0.25rem;
             text-align: right;
-            margin-left: 20%;
         }
 
         .message.other {
-            float: left;
+            margin-right: auto;
             background-color: var(--other-message-bg);
-            border-bottom-left-radius: 2px;
-            margin-right: 20%;
+            border-bottom-left-radius: 0.25rem;
         }
 
         .message.new-message {
@@ -144,7 +146,7 @@
         }
 
         .message .timestamp {
-            font-size: 0.8em;
+            font-size: 0.75rem;
             color: var(--timestamp-color);
             margin-left: 10px;
         }
@@ -152,46 +154,18 @@
         #message-form {
             display: flex;
             gap: 10px;
-            padding: 20px;
+            padding: 15px;
             background-color: var(--bg-color);
             border-top: 1px solid var(--border-color);
         }
 
-        #message-form input {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--message-bg);
-            color: var(--text-color);
-        }
-
         #message-form input:focus {
-            outline: none;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
         }
 
         #username {
             width: 150px;
-        }
-
-        #message {
-            flex: 1;
-        }
-
-        #message-form button {
-            padding: 12px 24px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-
-        #message-form button:hover {
-            background-color: var(--secondary-color);
         }
 
         /* Scrollbar styling */
@@ -212,8 +186,8 @@
             background: var(--primary-color);
         }
 
-        /* Responsive design */
-        @media (max-width: 600px) {
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
             #message-form {
                 flex-direction: column;
             }
@@ -221,150 +195,70 @@
             #username {
                 width: 100%;
             }
-        }
-
-        /* Channel prompt modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: var(--bg-color);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .modal-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .modal-input {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--message-bg);
-            color: var(--text-color);
-        }
-
-        .modal-button {
-            padding: 12px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .modal-button:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .channel-display {
-            padding: 15px;
-            background-color: var(--sidebar-bg);
-            border-radius: 8px 8px 0 0;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .channel-name {
-            font-size: 18px;
-            color: var(--primary-color);
-        }
-
-        .change-channel {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .change-channel:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+            
+            .theme-selector-container {
+                position: static;
+                width: 100%;
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <select id="theme-selector" onchange="changeTheme(this.value)">
-        <option value="light">Light Theme</option>
-        <option value="dark">Dark Theme</option>
-        <option value="forest">Forest Theme</option>
-        <option value="pink">Pink Theme</option>
-    </select>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="theme-selector-container">
+                    <select id="theme-selector" class="form-select form-select-sm" aria-label="Theme selector" onchange="changeTheme(this.value)">
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="forest">Forest Theme</option>
+                        <option value="pink">Pink Theme</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="chat-container">
         <div class="channel-display">
             <span class="channel-name"># <span id="current-channel-name">loading...</span></span>
-            <button class="change-channel" id="change-channel-btn">Change Channel</button>
+            <button class="btn btn-primary btn-sm" id="change-channel-btn">Change Channel</button>
         </div>
         <div id="messages"></div>
         <form id="message-form">
-            <input type="text" id="username" placeholder="Your name" autocomplete="off" aria-autocomplete="off">
-            <input type="text" id="message" placeholder="Type a message" autocomplete="off" aria-autocomplete="off" required>
-            <button type="submit">Send</button>
+            <input type="text" id="username" class="form-control" placeholder="Your name" autocomplete="off">
+            <input type="text" id="message" class="form-control" placeholder="Type a message" autocomplete="off" required>
+            <button type="submit" class="btn btn-primary">Send</button>
         </form>
     </div>
 
-    <!-- Channel prompt modal -->
-    <div class="modal-overlay" id="channel-modal">
-        <div class="modal-content">
-            <h2 class="modal-title">Enter Channel Name</h2>
-            <form class="modal-form" id="channel-form">
-                <input type="text" class="modal-input" id="channel-input" placeholder="e.g., general or your name" required>
-                <button type="submit" class="modal-button">Join Channel</button>
-                <div id="channel-error" class="error-message"></div>
-            </form>
+    <!-- Channel Modal -->
+    <div class="modal fade" id="channel-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="channelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="channelModalLabel">Enter Channel Name</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="channel-form">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="channel-input" placeholder="e.g., general or your name" required>
+                            <div id="channel-error" class="form-text text-danger"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Join Channel</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const messagesContainer = document.getElementById('messages');
         const messageForm = document.getElementById('message-form');
         const usernameInput = document.getElementById('username');
         const messageInput = document.getElementById('message');
-        const channelModal = document.getElementById('channel-modal');
         const channelForm = document.getElementById('channel-form');
         const channelInput = document.getElementById('channel-input');
         const channelError = document.getElementById('channel-error');
@@ -375,6 +269,12 @@
         let existingMessageIds = new Set();
         let channels = [];
         let messageInterval;
+        
+        // Bootstrap modal
+        const channelModal = new bootstrap.Modal(document.getElementById('channel-modal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
 
         // Theme management
         function changeTheme(theme) {
@@ -439,11 +339,6 @@
                         messagesContainer.appendChild(messageElement);
                     });
                     
-                    // Add clearfix
-                    const clearfix = document.createElement('div');
-                    clearfix.classList.add('clearfix');
-                    messagesContainer.appendChild(clearfix);
-                    
                     existingMessageIds = newMessageIds;
 
                     if (wasScrolledToBottom) {
@@ -472,7 +367,7 @@
             if (channels.includes(channelName)) {
                 currentChannel = channelName;
                 currentChannelName.textContent = channelName;
-                channelModal.style.display = 'none';
+                channelModal.hide();
                 existingMessageIds.clear();
                 fetchMessages();
                 
@@ -500,7 +395,7 @@
 
         // Change channel button
         changeChannelBtn.addEventListener('click', () => {
-            channelModal.style.display = 'flex';
+            channelModal.show();
             channelInput.focus();
         });
 
@@ -541,13 +436,15 @@
         });
 
         // Check if there's a saved channel preference
-        const savedChannel = localStorage.getItem('preferred-channel');
-        if (savedChannel && channels.includes(savedChannel)) {
-            joinChannel(savedChannel);
-        } else {
-            // Show the channel modal
-            channelModal.style.display = 'flex';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedChannel = localStorage.getItem('preferred-channel');
+            if (savedChannel && channels.includes(savedChannel)) {
+                joinChannel(savedChannel);
+            } else {
+                // Show the channel modal
+                channelModal.show();
+            }
+        });
     </script>
 </body>
 </html>
