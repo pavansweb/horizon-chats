@@ -2,27 +2,44 @@ from flask import Flask, request, jsonify, render_template
 import requests
 import firebase_admin
 from firebase_admin import credentials, db
+import json
+import os
 
 app = Flask(__name__)
 
 # Discord webhook config
 CHANNEL_CONFIG = {
     "gyan": {
-        "webhook": "https://discord.com/api/webhooks/...",
-        "mention": "<@111111111111111111>"
+        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
+        "mention": "<@797057126707101716>"
     },
     "harshini": {
-        "webhook": "https://discord.com/api/webhooks/...",
+        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
         "mention": "<@222222222222222222>"
     },
     "general": {
-        "webhook": "https://discord.com/api/webhooks/...",
+        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
         "mention": " "
     },
 }
 
-# Firebase setup
-cred = credentials.Certificate("horizon-chats-firebase-adminsdk-fbsvc-f207a8b716.json")
+# --- Step 1: Download credentials from Google Drive ---
+def download_firebase_json():
+    FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
+    URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
+    PATH = "firebase-creds.json"
+
+    if not os.path.exists(PATH):
+        print("Downloading Firebase credentials from Google Drive...")
+        r = requests.get(URL)
+        with open(PATH, "wb") as f:
+            f.write(r.content)
+    return PATH
+
+# --- Step 2: Load Firebase Credentials ---
+cred_path = download_firebase_json()
+cred = credentials.Certificate(cred_path)
+
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
