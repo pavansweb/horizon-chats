@@ -78,3 +78,6 @@ def messages(channel_name):
 @app.route("/")
 def index():
     return render_template("index.html", title="Horizon Chats")
+
+if __name__ == "__main__":
+    app.run(debug=True)
