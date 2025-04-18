@@ -1,4 +1,3 @@
-from flask_lambda import FlaskLambda
 from flask import request, jsonify, render_template
 import requests
 import firebase_admin
@@ -6,7 +5,7 @@ from firebase_admin import credentials, db
 import os
 import json
 
-app = FlaskLambda(__name__)
+app = Flask(__name__)
 
 CHANNEL_CONFIG = {
     "gyan": {
