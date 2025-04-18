@@ -1,4 +1,3 @@
 Flask==2.0.3
-flask_lambda==1.0.2
 firebase-admin==5.0.0
 requests==2.26.0
