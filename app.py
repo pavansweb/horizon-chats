@@ -1,48 +1,44 @@
-from flask import Flask, request, jsonify, render_template
+from flask_lambda import FlaskLambda
+from flask import request, jsonify, render_template
 import requests
 import firebase_admin
 from firebase_admin import credentials, db
-import json
 import os
 
-app = Flask(__name__)
+app = FlaskLambda(__name__)
 
-# Discord webhook config
 CHANNEL_CONFIG = {
     "gyan": {
-        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
+        "webhook": "https://discord.com/api/webhooks/...",
         "mention": "<@797057126707101716>"
-    }, 
+    },
     "harshini": {
-        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
+        "webhook": "https://discord.com/api/webhooks/...",
         "mention": "<@222222222222222222>"
     },
     "general": {
-        "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
-        "mention": " "
-    },
+        "webhook": "https://discord.com/api/webhooks/...",
+        "mention": ""
+    }
 }
 
-# --- Step 1: Download credentials from Google Drive ---
 def download_firebase_json():
     FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
     URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
-    PATH = "firebase-creds.json"
+    PATH = "/tmp/firebase-creds.json"  # Use /tmp on serverless environments
 
     if not os.path.exists(PATH):
-        print("Downloading Firebase credentials from Google Drive...")
         r = requests.get(URL)
         with open(PATH, "wb") as f:
             f.write(r.content)
     return PATH
 
-# --- Step 2: Load Firebase Credentials ---
 cred_path = download_firebase_json()
-cred = credentials.Certificate(cred_path)
-
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
-})
+if not firebase_admin._apps:
+    cred = credentials.Certificate(cred_path)
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    })
 
 @app.route("/channels", methods=["GET"])
 def list_channels():
@@ -68,10 +64,8 @@ def messages(channel_name):
             "timestamp": data.get("timestamp")
         }
 
-        # Push to Firebase
         ref.push(new_message)
 
-        # Send to Discord
         config = CHANNEL_CONFIG.get(channel_name)
         if config:
             payload = {
@@ -88,6 +82,3 @@ def messages(channel_name):
 @app.route("/")
 def index():
     return render_template("index.html", title="Horizon Chats")
-
-if __name__ == "__main__":
-    app.run(debug=True)
