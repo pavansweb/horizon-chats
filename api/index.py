@@ -4,7 +4,8 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 import json
-from urllib.parse import quote as url_quote  # Updated import for URL quoting
+from urllib.parse import quote as url_quote  
+import base64
 
 template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
 app = Flask(__name__, template_folder=template_dir)
@@ -25,11 +26,12 @@ CHANNEL_CONFIG = {
 }
 
 # Load Firebase credentials from environment variable
-firebase_creds_str = os.getenv("FIREBASE_CREDENTIALS")
-if not firebase_creds_str:
+firebase_creds_b64 = os.getenv("FIREBASE_CREDENTIALS_")
+if not firebase_creds_b64:
     raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
 
-firebase_creds_dict = json.loads(firebase_creds_str)
+firebase_creds_json = base64.b64decode(firebase_creds_b64).decode("utf-8")
+firebase_creds_dict = json.loads(firebase_creds_json)
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(firebase_creds_dict)
