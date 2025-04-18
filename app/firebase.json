@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "horizon-chats",
-  "private_key_id": "bc54310f154b4272694fe17f1074e24dc8eb63fd",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCeN+RMgxwNlnvZ\nnwYVpQ1TCOX1KHd68mlCfrQCJecG8cGx3AKBnCPFT//bn+lDXdRPZ/BALLaAf6Sq\nBjI+0Q3aq/XzehWyOG/FMl0sJ41GoyEWk0bVrVYfxmYy4CbTau+ZboCuyQ9mN34L\nl2hnUWjIHd9WIIzP8to7IiCkGBGkKuU/HcBbdpkB1U5VNQicnnXQa4VigpFk7Wug\nrHINbg15NnGJDHG8fpq1sGHMJQdgsHZSHDSPEReiATWzpn7o9NmoFPCvIE0IU2b6\ntzwsMpR4rgu24xAkp/eP3cIEGmIEbjtpZz7QI7+PXUlSgzsYk/OQoJld2/TGGK+j\nIchY2WifAgMBAAECggEAFX/f0HvScJA91SUUVRWgGWPwp58vmS/emNAR0ubmnV11\nph8Q4h7fB31m9aelsWdLJd0oWvgYdp6huA7uffW3bbsHSWYSE60ylvfQjGL1gh9B\nrEkoC3op5Vh247vs2rbBxzYqW1Xr90ZcJOQWpk98LxFMG26B4/IKsJVjHRk+MHID\nBI+4cDYlWB3IgkhJsYL/I63EMcnGft5qzKX1CAFgBTkenhZSjGZmshU9WN4hB8P/\nQb4kfZAYFj9PFV2K3MJ069C0tvHryvA+MjsB0qeJ0JcUvpGSAOghsZu2L8tzRJjk\nhE7zPdam/JLWPS0Z+yNIjmlshDxbnq+6Q7xUsuSw1QKBgQDSIUgHVGwkPgHDaSmr\n6Vs86Ry5hoAntVAicrkXwmgCwPbnlXMomV7VRSK5//89wDM5uaGIcD58PHYZY+GZ\n53Sr1bz1Es/oN8N3+5c6i/aqGoD0Z+bRDR0nBzxCsQBKYv2gDHACAucr13eiJ6ob\nI66uw6nuwNDIpYFYN1eWg+VkzQKBgQDAwZ/S0Jt6wEIVN/C+ZnYgqlbzFQdOUL1j\n/3XiaGP/k+T+H6slyYmrd8VAtc/7nqYOR0nIV+VfwK+8++JERteIo0DtbzFepxSQ\npuzzkHh/yY+Un6cZD7DMxoKLI5+d8j21VGLN/amsl32gJyT7U7UkU3t58QAyCIye\n20s9FF7jGwKBgHPTrp2Dtpx/pX8uj67YUdeQc6n8btX0hriGXmqvWZ/y9+aNpc3C\nRNjwZAT9DJfgQxxVq6nGnVrkBQFX4jpwsAosJh09AmdxnYicoS6/ifcX5u9R+pRP\nUzt5LIligdN/H2jCklc5fG3ZNnOmw4h0MczZw+j8VdnUCSk0UE6CY8cdAoGAOEzV\np7eykgnxw0zRjmtS+XuHZfywY5mFl92Xywd+nbnO2sLZNHJHOcQD40C3fOD705PS\n4yd5IZygN+zCS/r9HTXB0xf1LZZTlWSMNR/vcjOnMlvnbJR+qXEZ1BYVmwaUK5B4\nQ35hvr2IvexxCs+KSw/vMtDHo9WHbSbUNQTsKh0CgYBH0a/5yhBw7Lg70Tvj3i/0\nooZXsLxcz/nM5IA3RqwtuNnqGBOVj+47NnT8KV7zR+Z7lvEYCM9HwG/20nOurzk0\nnyyq6kU7AVw1AwgRdiDaPxXHkKJTORLeE64gmtZVHcSgFbXr/Hije2rYrhd5b0D8\nEKz7gAQb1R7FvT5nxMShsw==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fbsvc@horizon-chats.iam.gserviceaccount.com",
-  "client_id": "114959453276678695972",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40horizon-chats.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+
