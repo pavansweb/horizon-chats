@@ -6,8 +6,8 @@ import os
 import json
 from urllib.parse import quote as url_quote  # Updated import for URL quoting
 
-app = Flask(__name__, template_folder="templates")
-
+template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates'))
+app = Flask(__name__, template_folder=template_dir)
 
 CHANNEL_CONFIG = {
     "gyan": {
