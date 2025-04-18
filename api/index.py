@@ -4,6 +4,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 import json
+from urllib.parse import quote as url_quote  # Updated import for URL quoting
 
 app = Flask(__name__)
 
