@@ -1,0 +1,83 @@
+from flask_lambda import FlaskLambda
+from flask import request, jsonify, render_template
+import requests
+import firebase_admin
+from firebase_admin import credentials, db
+import os
+import json
+
+app = FlaskLambda(__name__)
+
+CHANNEL_CONFIG = {
+    "gyan": {
+        "webhook": "https://discord.com/api/webhooks/...",
+        "mention": "<@797057126707101716>"
+    },
+    "harshini": {
+        "webhook": "https://discord.com/api/webhooks/...",
+        "mention": "<@222222222222222222>"
+    },
+    "general": {
+        "webhook": "https://discord.com/api/webhooks/...",
+        "mention": ""
+    }
+}
+
+# Load Firebase credentials from environment variable
+firebase_creds_str = os.getenv("FIREBASE_CREDENTIALS")
+if not firebase_creds_str:
+    raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
+
+firebase_creds_dict = json.loads(firebase_creds_str)
+
+if not firebase_admin._apps:
+    cred = credentials.Certificate(firebase_creds_dict)
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    })
+
+@app.route("/channels", methods=["GET"])
+def list_channels():
+    return jsonify(list(CHANNEL_CONFIG.keys()))
+
+@app.route("/channels/<channel_name>/messages", methods=["GET", "POST"])
+def messages(channel_name):
+    ref = db.reference(f"messages/{channel_name}")
+
+    if request.method == "GET":
+        data = ref.order_by_key().get()
+        messages_list = list(data.values()) if data else []
+        return jsonify(messages_list)
+
+    elif request.method == "POST":
+        data = request.get_json()
+        if not data or "user" not in data or "message" not in data:
+            return jsonify({"error": "Invalid data"}), 400
+
+        new_message = {
+            "user": data["user"],
+            "message": data["message"],
+            "timestamp": data.get("timestamp")
+        }
+
+        ref.push(new_message)
+
+        config = CHANNEL_CONFIG.get(channel_name)
+        if config:
+            payload = {
+                "username": data["user"],
+                "content": f"{data['message']} {config.get('mention', '')}"
+            }
+            try:
+                requests.post(config["webhook"], json=payload)
+            except Exception as e:
+                print(f"Error sending to Discord ({channel_name}):", e)
+
+        return jsonify({"status": "Message stored & sent"}), 201
+
+@app.route("/")
+def index():
+    return render_template("index.html", title="Horizon Chats")
+
+if __name__ == "__main__":
+    app.run(debug=True)
