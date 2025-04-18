@@ -27,7 +27,7 @@ CHANNEL_CONFIG = {
 
 
  # --- Step 1: Download credentials from Google Drive ---
- def download_firebase_json():
+ #def download_firebase_json():
      FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
      URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
      PATH = "firebase-creds.json"
@@ -40,13 +40,19 @@ CHANNEL_CONFIG = {
      return PATH
  
  # --- Step 2: Load Firebase Credentials ---
- cred_path = download_firebase_json()
- cred = credentials.Certificate(cred_path)
- 
- firebase_admin.initialize_app(cred, {
-     'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
- })
+ #cred_path = download_firebase_json()
+ #cred = credentials.Certificate(cred_path)
+firebase_creds_str = os.getenv("FIREBASE_CREDENTIALS")
+if not firebase_creds_str:
+    raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
 
+firebase_creds_dict = json.loads(firebase_creds_str)
+
+if not firebase_admin._apps:
+    cred = credentials.Certificate(firebase_creds_dict)
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    })
 
 @app.route("/channels", methods=["GET"])
 def list_channels():
