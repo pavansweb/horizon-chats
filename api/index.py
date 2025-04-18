@@ -6,7 +6,8 @@ import os
 import json
 from urllib.parse import quote as url_quote  # Updated import for URL quoting
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
+
 
 CHANNEL_CONFIG = {
     "gyan": {
