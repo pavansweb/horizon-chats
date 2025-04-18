@@ -26,7 +26,7 @@ CHANNEL_CONFIG = {
 }
 
 # Load Firebase credentials from environment variable
-firebase_creds_b64 = os.getenv("FIREBASE_CREDENTIALS_")
+firebase_creds_b64 = os.getenv("FIREBASE_CREDENTIALS")
 if not firebase_creds_b64:
     raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
 
