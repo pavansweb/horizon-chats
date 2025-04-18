@@ -1,4 +1,4 @@
-from flask import request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template
 import requests
 import firebase_admin
 from firebase_admin import credentials, db
