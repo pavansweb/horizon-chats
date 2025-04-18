@@ -4,6 +4,7 @@ import requests
 import firebase_admin
 from firebase_admin import credentials, db
 import os
+import json
 
 app = FlaskLambda(__name__)
 
@@ -22,20 +23,15 @@ CHANNEL_CONFIG = {
     }
 }
 
-def download_firebase_json():
-    FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
-    URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
-    PATH = "/tmp/firebase-creds.json"  # Use /tmp on serverless environments
+# Load Firebase credentials from environment variable
+firebase_creds_str = os.getenv("FIREBASE_CREDENTIALS")
+if not firebase_creds_str:
+    raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
 
-    if not os.path.exists(PATH):
-        r = requests.get(URL)
-        with open(PATH, "wb") as f:
-            f.write(r.content)
-    return PATH
+firebase_creds_dict = json.loads(firebase_creds_str)
 
-cred_path = download_firebase_json()
 if not firebase_admin._apps:
-    cred = credentials.Certificate(cred_path)
+    cred = credentials.Certificate(firebase_creds_dict)
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://horizon-chats-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
