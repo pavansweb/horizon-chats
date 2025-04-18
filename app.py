@@ -12,7 +12,7 @@ CHANNEL_CONFIG = {
     "gyan": {
         "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
         "mention": "<@797057126707101716>"
-    },
+    }, 
     "harshini": {
         "webhook": "https://discord.com/api/webhooks/1361999839172362423/KxV_ROvNfdAfE-0gvuNSA7SjRJ09w6eNm3D6JQ_Wz9xZ4ql2GBChekIMc92KKUOMHIyZ",
         "mention": "<@222222222222222222>"

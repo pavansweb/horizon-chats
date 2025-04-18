@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -15,93 +16,219 @@
             --message-bg: #f8f9fa;
             --timestamp-color: #6c757d;
             --sidebar-bg: #f8f9fa;
-            --self-message-bg: #cfe2ff;
-            --other-message-bg: #f8f9fa;
+            --self-message-bg: #e3f2fd;
+            --other-message-bg: #f1f1f1;
+            --other-text-color: #212529;
+            --topbar-bg: #f8f9fa;
+            --modal-bg: #ffffff;
+            --modal-text: #212529;
+            --date-divider-bg: #e9ecef;
+            --date-divider-text: #6c757d;
         }
 
         [data-theme="dark"] {
-            --primary-color: #0d6efd;
-            --secondary-color: #0a58ca;
-            --bg-color: #212529;
-            --text-color: #f8f9fa;
+            --primary-color: #4f77ee;
+            --secondary-color: #3d63d9;
+            --bg-color: #1a1d21;
+            --text-color: #e9ecef;
             --border-color: #495057;
-            --message-bg: #343a40;
+            --message-bg: #2c2f33;
             --timestamp-color: #adb5bd;
-            --sidebar-bg: #343a40;
-            --self-message-bg: #0d47a1;
-            --other-message-bg: #424242;
+            --sidebar-bg: #2e3136;
+            --self-message-bg: #3b4252;
+            --other-message-bg: #434c5e;
+            --other-text-color: #e9ecef;
+            --topbar-bg: #2e3136;
+            --modal-bg: #2c2f33;
+            --modal-text: #e9ecef;
+            --date-divider-bg: #343a40;
+            --date-divider-text: #adb5bd;
         }
 
         [data-theme="forest"] {
-            --primary-color: #198754;
-            --secondary-color: #157347;
-            --bg-color: #f0f7f0;
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --bg-color: #f4faf5;
             --text-color: #2c3e2c;
             --border-color: #a5d6a7;
-            --message-bg: #e8f5e9;
+            --message-bg: #edf7ee;
             --timestamp-color: #558b55;
-            --sidebar-bg: #e0ece0;
-            --self-message-bg: #c8e6c9;
-            --other-message-bg: #e8f5e9;
+            --sidebar-bg: #e0ece4;
+            --self-message-bg: #d4edda;
+            --other-message-bg: #e0ece4;
+            --other-text-color: #2c3e2c;
+            --topbar-bg: #e0ece4;
+            --modal-bg: #f4faf5;
+            --modal-text: #2c3e2c;
+            --date-divider-bg: #d1e7dd;
+            --date-divider-text: #2c3e2c;
         }
 
         [data-theme="pink"] {
             --primary-color: #ff69b4;
-            --secondary-color: #ffa6c9;
+            --secondary-color: #ff1493;
             --bg-color: #fff0f5;
             --text-color: #4a0033;
             --border-color: #ffb6c1;
             --message-bg: #ffe4ec;
             --timestamp-color: #c71585;
             --sidebar-bg: #ffeef5;
-            --self-message-bg: #ffc0cb;
-            --other-message-bg: #fddde6;
+            --self-message-bg: #fce4ec;
+            --other-message-bg: #fff0f5;
+            --other-text-color: #4a0033;
+            --topbar-bg: #ffeef5;
+            --modal-bg: #fff0f5;
+            --modal-text: #4a0033;
+            --date-divider-bg: #fce4ec;
+            --date-divider-text: #c71585;
         }
+        
         [data-theme="cyan"] {
-        --primary-color: #00bcd4;
-        --secondary-color: #0097a7;
-        --bg-color: #e0f7fa;
-        --text-color: #004d40;
-        --border-color: #4dd0e1;
-        --message-bg: #b2ebf2;
-        --timestamp-color: #00796b;
-        --sidebar-bg: #ccf2f4;
-        --self-message-bg: #80deea;
-        --other-message-bg: #b2ebf2;
-    }
+            --primary-color: #00bcd4;
+            --secondary-color: #0097a7;
+            --bg-color: #e0f7fa;
+            --text-color: #004d40;
+            --border-color: #4dd0e1;
+            --message-bg: #e0f7fa;
+            --timestamp-color: #00796b;
+            --sidebar-bg: #b2ebf2;
+            --self-message-bg: #b2ebf2;
+            --other-message-bg: #e0f7fa;
+            --other-text-color: #004d40;
+            --topbar-bg: #b2ebf2;
+            --modal-bg: #e0f7fa;
+            --modal-text: #004d40;
+            --date-divider-bg: #b2ebf2;
+            --date-divider-text: #00796b;
+        }
 
+        [data-theme="purple"] {
+            --primary-color: #9c27b0;
+            --secondary-color: #7b1fa2;
+            --bg-color: #f3e5f5;
+            --text-color: #4a148c;
+            --border-color: #ce93d8;
+            --message-bg: #f3e5f5;
+            --timestamp-color: #8e24aa;
+            --sidebar-bg: #e1bee7;
+            --self-message-bg: #e1bee7;
+            --other-message-bg: #f3e5f5;
+            --other-text-color: #4a148c;
+            --topbar-bg: #e1bee7;
+            --modal-bg: #f3e5f5;
+            --modal-text: #4a148c;
+            --date-divider-bg: #e1bee7;
+            --date-divider-text: #8e24aa;
+        }
+
+        [data-theme="sunset"] {
+            --primary-color: #ff9800;
+            --secondary-color: #f57c00;
+            --bg-color: #fff8e1;
+            --text-color: #bf360c;
+            --border-color: #ffcc80;
+            --message-bg: #fff8e1;
+            --timestamp-color: #e65100;
+            --sidebar-bg: #ffe0b2;
+            --self-message-bg: #ffe0b2;
+            --other-message-bg: #fff8e1;
+            --other-text-color: #bf360c;
+            --topbar-bg: #ffe0b2;
+            --modal-bg: #fff8e1;
+            --modal-text: #bf360c;
+            --date-divider-bg: #ffe0b2;
+            --date-divider-text: #e65100;
+        }
+
+        [data-theme="midnight"] {
+            --primary-color: #5e35b1;
+            --secondary-color: #4527a0;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --border-color: #424242;
+            --message-bg: #1e1e1e;
+            --timestamp-color: #9575cd;
+            --sidebar-bg: #212121;
+            --self-message-bg: #311b92;
+            --other-message-bg: #263238;
+            --other-text-color: #e0e0e0;
+            --topbar-bg: #212121;
+            --modal-bg: #1e1e1e;
+            --modal-text: #e0e0e0;
+            --date-divider-bg: #263238;
+            --date-divider-text: #9575cd;
+        }
+
+        [data-theme="mint"] {
+            --primary-color: #26a69a;
+            --secondary-color: #00897b;
+            --bg-color: #e0f2f1;
+            --text-color: #004d40;
+            --border-color: #80cbc4;
+            --message-bg: #e0f2f1;
+            --timestamp-color: #00796b;
+            --sidebar-bg: #b2dfdb;
+            --self-message-bg: #b2dfdb;
+            --other-message-bg: #e0f2f1;
+            --other-text-color: #004d40;
+            --topbar-bg: #b2dfdb;
+            --modal-bg: #e0f2f1;
+            --modal-text: #004d40;
+            --date-divider-bg: #b2dfdb;
+            --date-divider-text: #00796b;
+        }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--message-bg);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .top-bar {
+            background-color: var(--topbar-bg);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .app-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
         }
 
         .theme-selector-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            width: 150px;
+            display: flex;
+            align-items: center;
+        }
+
+        #theme-selector {
+            min-width: 150px;
         }
 
         #chat-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px auto;
-            height: 80vh;
+            height: calc(100vh - 140px);
             display: flex;
             flex-direction: column;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             overflow: hidden;
         }
 
         .channel-display {
-            padding: 15px;
+            padding: 15px 20px;
             background-color: var(--sidebar-bg);
             font-weight: 600;
             display: flex;
@@ -113,6 +240,12 @@
         .channel-name {
             font-size: 18px;
             color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .channel-name i {
+            margin-right: 8px;
         }
 
         #messages {
@@ -120,32 +253,39 @@
             padding: 20px;
             overflow-y: auto;
             background-color: var(--message-bg);
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
-            padding: 10px 15px;
-            margin-bottom: 12px;
-            border-radius: 0.5rem;
-            max-width: 80%;
+            padding: 12px 18px;
+            margin-bottom: 8px;
+            border-radius: 16px;
+            max-width: 70%;
             position: relative;
             word-wrap: break-word;
         }
 
         .message.self {
             margin-left: auto;
+            margin-right: 0;
             background-color: var(--self-message-bg);
-            border-bottom-right-radius: 0.25rem;
+            color: var(--text-color);
             text-align: right;
+            border-bottom-right-radius: 4px;
         }
 
         .message.other {
             margin-right: auto;
+            margin-left: 0;
             background-color: var(--other-message-bg);
-            border-bottom-left-radius: 0.25rem;
+            color: var(--other-text-color);
+            text-align: left;
+            border-bottom-left-radius: 4px;
         }
 
         .message.new-message {
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn 0.4s ease-in;
         }
 
         @keyframes fadeIn {
@@ -155,25 +295,79 @@
 
         .message .user {
             font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .message.self .user {
             color: var(--primary-color);
+        }
+
+        .message.other .user {
+            color: var(--primary-color);
+        }
+
+        .message .message-content {
+            display: block;
+            line-height: 1.4;
         }
 
         .message .timestamp {
             font-size: 0.75rem;
+            margin-top: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: block;
+            text-align: right;
+        }
+
+        .message:hover .timestamp {
+            opacity: 1;
+        }
+
+        .message.self .timestamp {
             color: var(--timestamp-color);
-            margin-left: 10px;
+        }
+
+        .message.other .timestamp {
+            color: var(--timestamp-color);
+            text-align: left;
+        }
+
+        .date-divider {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .date-divider span {
+            background-color: var(--date-divider-bg);
+            color: var(--date-divider-text);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         #message-form {
             display: flex;
             gap: 10px;
-            padding: 15px;
+            padding: 15px 20px;
             background-color: var(--bg-color);
             border-top: 1px solid var(--border-color);
         }
 
+        #message-form input {
+            border-radius: 20px;
+            padding: 10px 15px;
+            background-color: var(--message-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
         #message-form input:focus {
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb, 13, 110, 253), 0.25);
             border-color: var(--primary-color);
         }
 
@@ -181,9 +375,21 @@
             width: 150px;
         }
 
+        #message-form button {
+            border-radius: 20px;
+            padding: 0 20px;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        #message-form button:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
         /* Scrollbar styling */
         #messages::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         #messages::-webkit-scrollbar-track {
@@ -192,57 +398,125 @@
 
         #messages::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         #messages::-webkit-scrollbar-thumb:hover {
             background: var(--primary-color);
         }
 
+        /* Modal styling to match theme */
+        .modal-content {
+            background-color: var(--modal-bg);
+            color: var(--modal-text);
+            border-color: var(--border-color);
+        }
+
+        .modal-header {
+            border-bottom-color: var(--border-color);
+            background-color: var(--sidebar-bg);
+        }
+
+        .modal-footer {
+            border-top-color: var(--border-color);
+        }
+
+        #channel-input {
+            background-color: var(--message-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        #channel-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb, 13, 110, 253), 0.25);
+            border-color: var(--primary-color);
+        }
+
         /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #chat-container {
+                margin: 10px;
+                height: calc(100vh - 120px);
+                border-radius: 0.75rem;
+            }
+            
+            .channel-display {
+                padding: 12px 15px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+        }
+
         @media (max-width: 576px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            
             #message-form {
                 flex-direction: column;
+                gap: 10px;
             }
 
             #username {
                 width: 100%;
             }
             
-            .theme-selector-container {
-                position: static;
-                width: 100%;
-                margin-bottom: 15px;
+            #chat-container {
+                height: calc(100vh - 150px);
+                margin: 5px;
+            }
+            
+            .message {
+                max-width: 90%;
+                padding: 10px 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="theme-selector-container">
-                    <select id="theme-selector" class="form-select form-select-sm" aria-label="Theme selector" onchange="changeTheme(this.value)">
-                        <option value="light">Light Theme</option>
-                        <option value="dark">Dark Theme</option>
-                        <option value="forest">Forest Theme</option>
-                        <option value="pink">Pink Theme</option>
-                    </select>
-                </div>
-            </div>
+    <div class="top-bar">
+        <div class="app-title">
+            <i class="fas fa-comment-dots"></i> Horizon Chats
+        </div>
+        <div class="theme-selector-container">
+            <select id="theme-selector" class="form-select form-select-sm" aria-label="Theme selector" onchange="changeTheme(this.value)">
+                <option value="light">Light Theme</option>
+                <option value="dark">Dark Theme</option>
+                <option value="forest">Forest Theme</option>
+                <option value="pink">Pink Theme</option>
+                <option value="cyan">Cyan Theme</option>
+                <option value="purple">Purple Theme</option>
+                <option value="sunset">Sunset Theme</option>
+                <option value="midnight">Midnight Theme</option>
+                <option value="mint">Mint Theme</option>
+            </select>
+        </div>
+        <div class="user-status">
+            <span id="user-status-indicator"></span>
         </div>
     </div>
 
     <div id="chat-container">
         <div class="channel-display">
-            <span class="channel-name"># <span id="current-channel-name">loading...</span></span>
-            <button class="btn btn-primary btn-sm" id="change-channel-btn">Change Channel</button>
+            <span class="channel-name">
+                <i class="fas fa-hashtag"></i>
+                <span id="current-channel-name">loading...</span>
+            </span>
+            <button class="btn btn-primary btn-sm" id="change-channel-btn">
+                <i class="fas fa-exchange-alt"></i> Change Channel
+            </button>
         </div>
         <div id="messages"></div>
         <form id="message-form">
             <input type="text" id="username" class="form-control" placeholder="Your name" autocomplete="off">
             <input type="text" id="message" class="form-control" placeholder="Type a message" autocomplete="off" required>
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
         </form>
     </div>
 
@@ -251,15 +525,19 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="channelModalLabel">Enter Channel Name</h5>
+                    <h5 class="modal-title" id="channelModalLabel">
+                        <i class="fas fa-hashtag"></i> Enter Channel Name
+                    </h5>
                 </div>
                 <div class="modal-body">
                     <form id="channel-form">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="channel-input" placeholder=" " required>
+                            <input type="text" class="form-control" id="channel-input" placeholder="Channel name" required>
                             <div id="channel-error" class="form-text text-danger"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Join Channel</button>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-sign-in-alt"></i> Join Channel
+                        </button>
                     </form>
                 </div>
             </div>
@@ -277,11 +555,16 @@
         const channelError = document.getElementById('channel-error');
         const currentChannelName = document.getElementById('current-channel-name');
         const changeChannelBtn = document.getElementById('change-channel-btn');
+        const userStatusIndicator = document.getElementById('user-status-indicator');
 
         let currentChannel = null;
         let existingMessageIds = new Set();
         let channels = [];
         let messageInterval;
+        let lastDisplayedDate = null;
+
+        // Default theme
+        document.body.setAttribute('data-theme', "dark");
         
         // Bootstrap modal
         const channelModal = new bootstrap.Modal(document.getElementById('channel-modal'), {
@@ -293,13 +576,50 @@
         function changeTheme(theme) {
             document.body.setAttribute('data-theme', theme);
             localStorage.setItem('preferred-theme', theme);
+            
+            // Also update primary color RGB value for focus effects
+            let primaryColorRGB;
+            switch(theme) {
+                case 'dark':
+                    primaryColorRGB = '79, 119, 238';
+                    break;
+                case 'light':
+                    primaryColorRGB = '13, 110, 253';
+                    break;
+                case 'forest':
+                    primaryColorRGB = '46, 204, 113';
+                    break;
+                case 'pink':
+                    primaryColorRGB = '255, 105, 180';
+                    break;
+                case 'cyan':
+                    primaryColorRGB = '0, 188, 212';
+                    break;
+                case 'purple':
+                    primaryColorRGB = '156, 39, 176';
+                    break;
+                case 'sunset':
+                    primaryColorRGB = '255, 152, 0';
+                    break;
+                case 'midnight':
+                    primaryColorRGB = '94, 53, 177';
+                    break;
+                case 'mint':
+                    primaryColorRGB = '38, 166, 154';
+                    break;
+                default:
+                    primaryColorRGB = '13, 110, 253';
+            }
+            document.documentElement.style.setProperty('--primary-color-rgb', primaryColorRGB);
         }
 
         // Load saved theme
         const savedTheme = localStorage.getItem('preferred-theme');
         if (savedTheme) {
-            document.body.setAttribute('data-theme', savedTheme);
+            changeTheme(savedTheme);
             document.getElementById('theme-selector').value = savedTheme;
+        } else {
+            changeTheme('dark');
         }
 
         function formatTimestamp(timestamp) {
@@ -307,6 +627,38 @@
             const hours = date.getHours().toString().padStart(2, '0');
             const minutes = date.getMinutes().toString().padStart(2, '0');
             return `${hours}:${minutes}`;
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (date.toDateString() === today.toDateString()) {
+                return 'Today';
+            } else if (date.toDateString() === yesterday.toDateString()) {
+                return 'Yesterday';
+            } else {
+                const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString(undefined, options);
+            }
+        }
+
+        function shouldAddDateDivider(timestamp) {
+            if (!lastDisplayedDate) return true;
+            
+            const date = new Date(timestamp);
+            const lastDate = new Date(lastDisplayedDate);
+            
+            return date.toDateString() !== lastDate.toDateString();
+        }
+
+        function createDateDivider(timestamp) {
+            const divider = document.createElement('div');
+            divider.className = 'date-divider';
+            divider.innerHTML = `<span>${formatDate(timestamp)}</span>`;
+            return divider;
         }
 
         function createMessageElement(msg, isNew) {
@@ -342,11 +694,20 @@
                     const newMessageIds = new Set();
                     
                     messagesContainer.innerHTML = '';
+                    lastDisplayedDate = null;
+                    
                     messages.forEach(msg => {
                         const messageId = `${msg.timestamp}-${msg.user}-${msg.message}`;
                         const isNew = !existingMessageIds.has(messageId);
                         
                         newMessageIds.add(messageId);
+                        
+                        // Check if we need to add a date divider
+                        if (shouldAddDateDivider(msg.timestamp)) {
+                            const dateDivider = createDateDivider(msg.timestamp);
+                            messagesContainer.appendChild(dateDivider);
+                            lastDisplayedDate = msg.timestamp;
+                        }
                         
                         const messageElement = createMessageElement(msg, isNew);
                         messagesContainer.appendChild(messageElement);
@@ -357,7 +718,18 @@
                     if (wasScrolledToBottom) {
                         messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     }
+                    
+                    // Update user status
+                    updateUserStatus();
                 });
+        }
+
+        function updateUserStatus() {
+            if (currentChannel && usernameInput.value.trim()) {
+                userStatusIndicator.innerHTML = `<span class="badge bg-success">Online in #${currentChannel}</span>`;
+            } else {
+                userStatusIndicator.innerHTML = '';
+            }
         }
 
         // Initial fetch of available channels
@@ -392,6 +764,9 @@
                     clearInterval(messageInterval);
                 }
                 messageInterval = setInterval(fetchMessages, 2000);
+                
+                // Update user status
+                updateUserStatus();
                 
                 return true;
             } else {
@@ -438,6 +813,7 @@
                 })
             }).then(() => {
                 messageInput.value = '';
+                messageInput.focus();
                 fetchMessages();
             });
         });
@@ -446,16 +822,47 @@
         usernameInput.value = localStorage.getItem('username') || '';
         usernameInput.addEventListener('change', () => {
             localStorage.setItem('username', usernameInput.value);
+            updateUserStatus();
         });
 
         // Check if there's a saved channel preference
         document.addEventListener('DOMContentLoaded', () => {
             const savedChannel = localStorage.getItem('preferred-channel');
+            
+            // Add simulation for channels if empty
+            if (!channels.length) {
+                channels = ['general', 'random', 'support', 'announcements'];
+            }
+            
             if (savedChannel && channels.includes(savedChannel)) {
                 joinChannel(savedChannel);
             } else {
                 // Show the channel modal
                 channelModal.show();
+            }
+            
+            // Focus on input field
+            if (!usernameInput.value) {
+                usernameInput.focus();
+            } else {
+                messageInput.focus();
+            }
+        });
+
+        // Auto-resize chat container on window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 576) {
+                document.getElementById('chat-container').style.height = 'calc(100vh - 150px)';
+            } else {
+                document.getElementById('chat-container').style.height = 'calc(100vh - 140px)';
+            }
+        });
+
+        // Listen for Enter key in message input
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                messageForm.dispatchEvent(new Event('submit'));
             }
         });
     </script>
