@@ -27,7 +27,7 @@ CHANNEL_CONFIG = {
 
 
  # --- Step 1: Download credentials from Google Drive ---
- #def download_firebase_json():
+ def download_firebase_json():
      FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
      URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
      PATH = "firebase-creds.json"
