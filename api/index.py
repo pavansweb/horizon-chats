@@ -26,22 +26,22 @@ CHANNEL_CONFIG = {
 }
 
 
- # --- Step 1: Download credentials from Google Drive ---
- def download_firebase_json():
-     FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
-     URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
-     PATH = "firebase-creds.json"
- 
-     if not os.path.exists(PATH):
-         print("Downloading Firebase credentials from Google Drive...")
-         r = requests.get(URL)
-         with open(PATH, "wb") as f:
-             f.write(r.content)
-     return PATH
- 
- # --- Step 2: Load Firebase Credentials ---
- #cred_path = download_firebase_json()
- #cred = credentials.Certificate(cred_path)
+# --- Step 1: Download credentials from Google Drive ---
+def download_firebase_json():
+    FILE_ID = "1gITR8SPOCY6E9Z_ZIRpts8shyH7_qhfp"
+    URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
+    PATH = "firebase-creds.json"
+
+    if not os.path.exists(PATH):
+        print("Downloading Firebase credentials from Google Drive...")
+        r = requests.get(URL)
+        with open(PATH, "wb") as f:
+            f.write(r.content)
+    return PATH
+
+# --- Step 2: Load Firebase Credentials ---
+# cred_path = download_firebase_json()
+# cred = credentials.Certificate(cred_path)
 firebase_creds_str = os.getenv("FIREBASE_CREDENTIALS")
 if not firebase_creds_str:
     raise RuntimeError("Missing FIREBASE_CREDENTIALS environment variable")
