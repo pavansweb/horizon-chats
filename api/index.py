@@ -17,7 +17,7 @@ CHANNEL_CONFIG = {
     },
     "harshini": {
         "webhook": "https://discord.com/api/webhooks/...",
-        "mention": "<@222222222222222222>"
+        "mention": "<@805453572161798216>"
     },
     "general": {
         "webhook": "https://discord.com/api/webhooks/...",
